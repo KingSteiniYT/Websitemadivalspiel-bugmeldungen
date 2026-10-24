@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="medival-metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0eadf"/>
+      <stop offset="38%" stop-color="#d2ad69"/>
+      <stop offset="72%" stop-color="#bd9654"/>
+      <stop offset="100%" stop-color="#a8753e"/>
+    </linearGradient>
+  </defs>
+  <path d="M78 434V165l46-48-12 54q-4 19 19 38l125 78 125-78q23-19 19-38l-12-54 46 48v269H332V286l-76 66-76-66v148z" fill="url(#medival-metal)"/>
+</svg>
