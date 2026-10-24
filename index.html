@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#171613">
+  <title>Medival – private Fehlermeldungen</title>
+  <style>
+    :root { color-scheme: dark; --bg:#171613; --panel:#22201b; --panel2:#2b2821; --line:#4a4438; --text:#f4efe3; --muted:#bcb3a2; --gold:#d8b976; --red:#f3a49a; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; color:var(--text); background:radial-gradient(ellipse at 50% -10%,#393123 0,transparent 50%),var(--bg); font:16px/1.55 Georgia,"Times New Roman",serif; }
+    a { color:var(--gold); }
+    .wrap { width:min(920px,calc(100% - 32px)); margin:0 auto; }
+    header { border-bottom:1px solid var(--line); }
+    .top { min-height:76px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .brand { color:var(--text); text-decoration:none; font:bold 18px/1 Arial,sans-serif; letter-spacing:.18em; }
+    .brand span { color:var(--gold); }
+    .top a:last-child { color:var(--muted); font:13px Arial,sans-serif; text-decoration:none; }
+    main { padding:68px 0 88px; }
+    .eyebrow { color:var(--gold); font:11px/1.4 Arial,sans-serif; letter-spacing:.18em; text-transform:uppercase; }
+    h1 { margin:10px 0 12px; font-size:clamp(34px,6vw,52px); line-height:1.04; font-weight:500; }
+    .intro { max-width:610px; color:var(--muted); }
+    .panel { margin-top:30px; padding:clamp(20px,4vw,34px); border:1px solid var(--line); background:linear-gradient(145deg,rgba(255,255,255,.035),transparent 60%),var(--panel); box-shadow:0 22px 70px #0005; }
+    .panel h2 { margin:0 0 16px; font-size:24px; font-weight:500; }
+    .field { display:grid; gap:7px; margin:16px 0; }
+    label { color:var(--muted); font:13px Arial,sans-serif; }
+    input { width:100%; min-height:48px; border:1px solid var(--line); border-radius:3px; padding:11px 13px; color:var(--text); background:#171613; font:16px Arial,sans-serif; }
+    input:focus { outline:2px solid var(--gold); outline-offset:1px; }
+    button { min-height:46px; border:1px solid var(--gold); border-radius:3px; padding:10px 18px; color:#211c12; background:var(--gold); font:bold 14px Arial,sans-serif; cursor:pointer; }
+    button:hover { filter:brightness(1.08); }
+    button:disabled { cursor:wait; opacity:.65; }
+    .quiet-button { color:var(--text); background:transparent; border-color:var(--line); }
+    .status { min-height:24px; color:var(--muted); }
+    .status.error { color:var(--red); }
+    .small { color:var(--muted); font:13px/1.5 Arial,sans-serif; }
+    [hidden] { display:none !important; }
+    .dashboard-head { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .count { color:var(--muted); font:13px Arial,sans-serif; }
+    .report-list { display:grid; gap:12px; margin-top:20px; }
+    .report { border:1px solid var(--line); background:var(--panel2); padding:18px; }
+    .report-top { display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:8px 16px; }
+    .report h3 { margin:0; color:var(--gold); font-size:18px; font-weight:500; }
+    .date { color:var(--muted); font:12px Arial,sans-serif; }
+    .description { margin:12px 0; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .platform { color:var(--muted); font:12px Arial,sans-serif; }
+    .empty { padding:22px; border:1px dashed var(--line); color:var(--muted); }
+    footer { border-top:1px solid var(--line); padding:22px 0 32px; color:var(--muted); font:12px Arial,sans-serif; }
+    @media (max-width:560px) { main { padding-top:45px; } .top { min-height:66px; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap top">
+      <div class="brand">MEDI<span>V</span>AL</div>
+
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="eyebrow">Privater Entwicklerbereich</div>
+    <h1>Fehlermeldungen</h1>
+    <p class="intro">Hier siehst du die Meldungen, die Besucher über die Medival-Website gesendet haben. Die Liste ist nur für das freigegebene Entwicklerkonto zugänglich.</p>
+
+    <section class="panel" id="login-panel" aria-labelledby="login-title">
+      <h2 id="login-title">Anmelden</h2>
+      <form id="login-form">
+        <div class="field"><label for="email">E-Mail-Adresse</label><input id="email" name="email" type="email" autocomplete="username" required></div>
+        <div class="field"><label for="password">Passwort</label><input id="password" name="password" type="password" autocomplete="current-password" required></div>
+        <button id="login-button" type="submit">Meldungen ansehen</button>
+      </form>
+      <p class="status" id="login-status" role="status" aria-live="polite"></p>
+      <p class="small">Noch kein Passwort? Öffne zuerst die neueste Einladung aus deiner E-Mail und lege dort ein Passwort fest. Danach kannst du dich hier anmelden.</p>
+    </section>
+
+    <section class="panel" id="invite-panel" aria-labelledby="invite-title" hidden>
+      <h2 id="invite-title">Passwort festlegen</h2>
+      <p class="small">Die Einladung ist bestätigt. Lege jetzt ein Passwort für den privaten Entwicklerbereich fest.</p>
+      <form id="invite-form">
+        <div class="field"><label for="new-password">Neues Passwort</label><input id="new-password" name="password" type="password" autocomplete="new-password" minlength="8" required></div>
+        <div class="field"><label for="confirm-password">Passwort wiederholen</label><input id="confirm-password" name="confirm-password" type="password" autocomplete="new-password" minlength="8" required></div>
+        <button id="invite-button" type="submit">Passwort speichern</button>
+      </form>
+      <p class="status" id="invite-status" role="status" aria-live="polite"></p>
+    </section>
+    <section class="panel" id="dashboard-panel" aria-labelledby="reports-title" hidden>
+      <div class="dashboard-head">
+        <div><h2 id="reports-title">Eingegangene Meldungen</h2><div class="count" id="report-count">Lädt …</div></div>
+        <button class="quiet-button" id="logout-button" type="button">Abmelden</button>
+      </div>
+      <p class="status" id="report-status" role="status" aria-live="polite"></p>
+      <div class="report-list" id="report-list" aria-live="polite"></div>
+    </section>
+  </main>
+  <footer><div class="wrap">Medival · Privater Entwicklerbereich</div></footer>
+  <script>
+    const SUPABASE_URL = 'https://zflqkyysrfshadnxjoim.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_lfM8nAE6xXmD0tn8UJcaaQ_GbI9plrM';
+    const TABLE = 'bug_reports';
+    let accessToken = null;
+
+    const loginForm = document.querySelector('#login-form');
+    const loginPanel = document.querySelector('#login-panel');
+    const invitePanel = document.querySelector('#invite-panel');
+    const inviteForm = document.querySelector('#invite-form');
+    const inviteStatus = document.querySelector('#invite-status');
+    const inviteButton = document.querySelector('#invite-button');
+    const dashboardPanel = document.querySelector('#dashboard-panel');
+    const loginStatus = document.querySelector('#login-status');
+    const reportStatus = document.querySelector('#report-status');
+    const reportList = document.querySelector('#report-list');
+    const reportCount = document.querySelector('#report-count');
+    const loginButton = document.querySelector('#login-button');
+
+    function setStatus(element, message, isError = false) {
+      element.textContent = message;
+      element.classList.toggle('error', isError);
+    }
+
+    function headers(extra = {}) {
+      return { apikey: SUPABASE_PUBLISHABLE_KEY, Accept: 'application/json', ...extra };
+    }
+
+    function showEmpty(message) {
+      reportList.replaceChildren();
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      empty.textContent = message;
+      reportList.append(empty);
+    }
+
+    function renderReports(reports) {
+      reportList.replaceChildren();
+      reportCount.textContent = `${reports.length} ${reports.length === 1 ? 'Meldung' : 'Meldungen'}`;
+      if (!reports.length) {
+        showEmpty('Es sind noch keine Fehlermeldungen eingegangen.');
+        return;
+      }
+
+      for (const report of reports) {
+        const card = document.createElement('article');
+        card.className = 'report';
+        const top = document.createElement('div');
+        top.className = 'report-top';
+        const title = document.createElement('h3');
+        title.textContent = report.category || 'Fehler';
+        const date = document.createElement('time');
+        date.className = 'date';
+        const parsedDate = new Date(report.created_at);
+        date.dateTime = Number.isNaN(parsedDate.getTime()) ? '' : parsedDate.toISOString();
+        date.textContent = Number.isNaN(parsedDate.getTime()) ? 'Datum unbekannt' : new Intl.DateTimeFormat('de-DE', { dateStyle: 'medium', timeStyle: 'short' }).format(parsedDate);
+        top.append(title, date);
+        const description = document.createElement('p');
+        description.className = 'description';
+        description.textContent = report.description || '';
+        const platform = document.createElement('div');
+        platform.className = 'platform';
+        platform.textContent = `Plattform: ${report.platform || 'Nicht angegeben'}`;
+        card.append(top, description, platform);
+        reportList.append(card);
+      }
+      setStatus(reportStatus, '');
+    }
+
+    async function loadReports() {
+      reportCount.textContent = 'Lädt …';
+      setStatus(reportStatus, '');
+      const query = new URLSearchParams({
+        select: 'id,category,platform,description,created_at',
+        order: 'created_at.desc',
+        limit: '250'
+      });
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?${query}`, {
+        cache: 'no-store',
+        headers: headers({ Authorization: `Bearer ${accessToken}` })
+      });
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('Dieses Konto ist nicht für die privaten Meldungen freigeschaltet.');
+      }
+      if (!response.ok) throw new Error('Die Meldungen konnten gerade nicht geladen werden.');
+      renderReports(await response.json());
+    }
+
+    // Supabase returns email invitation tokens in the URL fragment. Read them in
+    // the browser, then remove the fragment from the address bar immediately.
+    const authFragment = new URLSearchParams(window.location.hash.slice(1));
+    const inviteToken = authFragment.get('access_token');
+    const inviteType = authFragment.get('type');
+    const inviteError = authFragment.get('error_description') || authFragment.get('error');
+    if (window.location.hash) history.replaceState(null, '', window.location.pathname + window.location.search);
+    if (inviteType === 'invite' && inviteToken) {
+      accessToken = inviteToken;
+      loginPanel.hidden = true;
+      invitePanel.hidden = false;
+      document.querySelector('#new-password').focus();
+    } else if (inviteError) {
+      setStatus(loginStatus, 'Die Einladung konnte nicht bestätigt werden. Bitte lasse dir eine neue Einladung schicken.', true);
+    }
+
+    inviteForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const form = new FormData(inviteForm);
+      const password = String(form.get('password'));
+      const confirmation = String(form.get('confirm-password'));
+      if (password !== confirmation) {
+        setStatus(inviteStatus, 'Die beiden Passwörter stimmen nicht überein.', true);
+        return;
+      }
+      setStatus(inviteStatus, 'Passwort wird gespeichert …');
+      inviteButton.disabled = true;
+      try {
+        const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+          method: 'PUT',
+          headers: headers({ Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' }),
+          body: JSON.stringify({ password })
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.msg || result.message || 'Das Passwort konnte nicht gespeichert werden. Bitte fordere eine neue Einladung an.');
+        inviteForm.reset();
+        invitePanel.hidden = true;
+        dashboardPanel.hidden = false;
+        setStatus(reportStatus, 'Passwort gespeichert. Deine privaten Meldungen werden geladen …');
+        try {
+          await loadReports();
+        } catch (error) {
+          reportCount.textContent = 'Nicht verfügbar';
+          setStatus(reportStatus, error.message || 'Die Meldungen konnten gerade nicht geladen werden.', true);
+          showEmpty('Melde dich mit dem freigegebenen Entwicklerkonto an.');
+        }
+      } catch (error) {
+        setStatus(inviteStatus, error.message || 'Das Passwort konnte gerade nicht gespeichert werden.', true);
+      } finally {
+        inviteButton.disabled = false;
+      }
+    });
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      setStatus(loginStatus, 'Anmeldung wird geprüft …');
+      loginButton.disabled = true;
+      const form = new FormData(loginForm);
+      try {
+        const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+          method: 'POST',
+          headers: headers({ 'Content-Type': 'application/json' }),
+          body: JSON.stringify({ email: String(form.get('email')).trim(), password: String(form.get('password')) })
+        });
+        const result = await response.json();
+        if (!response.ok || !result.access_token) {
+          throw new Error('Anmeldung fehlgeschlagen. Falls du noch kein Passwort festgelegt hast, öffne zuerst die neueste Einladung aus deiner E-Mail.');
+        }
+        accessToken = result.access_token;
+        document.querySelector('#password').value = '';
+        loginPanel.hidden = true;
+        dashboardPanel.hidden = false;
+        try {
+          await loadReports();
+        } catch (error) {
+          reportCount.textContent = 'Nicht verfügbar';
+          setStatus(reportStatus, error.message, true);
+          showEmpty('Melde dich mit dem freigegebenen Entwicklerkonto an.');
+        }
+      } catch (error) {
+        setStatus(loginStatus, error.message || 'Anmeldung nicht möglich. Bitte versuche es später erneut.', true);
+      } finally {
+        loginButton.disabled = false;
+      }
+    });
+
+    document.querySelector('#logout-button').addEventListener('click', () => {
+      accessToken = null;
+      reportList.replaceChildren();
+      reportCount.textContent = '';
+      loginForm.reset();
+      setStatus(loginStatus, '');
+      loginPanel.hidden = false;
+      dashboardPanel.hidden = true;
+      document.querySelector('#email').focus();
+    });
+  </script>
+</body>
+</html>
